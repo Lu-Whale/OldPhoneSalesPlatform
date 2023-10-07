@@ -1,0 +1,20 @@
+.section-best-top {
+  width: 70%;
+  margin: 12rem auto 0;
+  justify-content: space-evenly;
+  align-items: flex-start;
+}
+
+.best-top-container {
+  height: 40rem;
+  text-align: center;
+}
+
+.section-best-top > * {
+  flex-basis: 45%;
+}
+
+.section-best-top img {
+  width: 25rem;
+  object-fit: cover;
+}

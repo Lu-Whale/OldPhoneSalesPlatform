@@ -1,0 +1,52 @@
+/* ---------------------- */
+/* Navigation Bar Styles */
+/* ---------------------- */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgb(3, 62, 120);
+  padding: 3rem 10rem;
+}
+
+.nav-logo {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.nav-list {
+  width: 40%;
+  font-size: 1.5rem;
+  justify-content: flex-end;
+}
+
+.nav-items {
+  margin-right: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: solid 2px transparent;
+  transition: 0.3s linear;
+}
+
+.nav-items:hover, .nav-btn:hover {
+  color: yellow;
+  border-bottom-color: yellow;
+}
+
+.nav-btn {
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  cursor: pointer;
+  padding-bottom: 1rem;
+  border-bottom: solid 2px transparent;
+  transition: 0.3s linear;
+}
+
+.cart-lists {
+  margin-bottom: 2rem;
+}
+
+.cart-count {
+  margin-left: 1rem;
+}

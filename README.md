@@ -15,7 +15,6 @@ If the user doesn't have the account, they can go to the sign up page and regist
 When the users add the phone to the cart, all the items added to the cart is displayed in the Checkout page. The user can add, reduce the quantity of each items or delete. And user can buy the item.
 
 ## Getting Started
-
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Pre-requisites
@@ -64,7 +63,7 @@ $ npm start
 2. Stop the client with `Ctrl+C`.
 
 ## Developers
-- Main page: [Rina Yoo](github.com/RinaYoo) (full stack)
-- User Authentication system: [Ruoshui(Christin) Chen](https://github.com/ChristinChen233) (full stack)
-- Checkout Page (shopping cart): Ruoshui(Christin) Chen (front end), Jingyu(Lucas) Lu (back end)
-- User Profile page: Ruoshui(Christin) Chen & Lucas (front end), Jingyu(Lucas) Lu (back end)
+- [Jingyu(Lucas) Lu](https://github.com/Lu-Whale) (full stack)
+- [Rina Yoo](github.com/RinaYoo) (full stack)
+- [Ruoshui(Christin) Chen](https://github.com/ChristinChen233) (full stack)
+

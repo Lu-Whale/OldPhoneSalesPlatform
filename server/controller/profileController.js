@@ -23,6 +23,29 @@ async function getUser(req, res) {
   }
 }
 
+// 项目优化------
+// async function getUser(req, res) {
+//   try {
+//     const userIdStr = req.body.currentUserId;
+//
+//     // 验证userIdStr是否有效
+//     if (!mongoose.Types.ObjectId.isValid(userIdStr)) {
+//       return res.status(400).json({ message: "Invalid user ID format." });
+//     }
+//
+//     const user = await User.findById(userIdStr);
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     } else {
+//       // 不返回密码
+//       const { password, ...userWithoutPassword } = user.toObject();
+//       res.json(userWithoutPassword);
+//     }
+//   } catch (error) {
+//     res.status(500).json({ message: "An error occurred", error: error.message });
+//   }
+// }
+
 //Edit profile
 async function editProfile(req, res) {
     try {
@@ -73,6 +96,54 @@ async function editProfile(req, res) {
       return res.status(400).send({ error: error.message, stack: error.stack });
     }
 }
+// 项目优化------
+// async function editProfile(req, res) {
+//   try {
+//     const { email, firstName, lastName, password, userId } = req.body;
+//     if (!password) {
+//       return res.status(400).json({ message: "Password is required" });
+//     }
+//
+//     if (!mongoose.Types.ObjectId.isValid(userId)) {
+//       return res.status(400).json({ message: "Invalid user ID format." });
+//     }
+//
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+//
+//     const isPasswordCorrect = bcrypt.compareSync(password, user.password);
+//     if (!isPasswordCorrect) {
+//       return res.status(401).json({ message: "Incorrect password" });
+//     }
+//
+//     // Construct the update object
+//     const update = {};
+//     if (email && email !== user.email) {
+//       const emailExists = await User.findOne({ email: email });
+//       if (emailExists) {
+//         return res.status(400).json({ message: "Email already in use" });
+//       }
+//       update.email = email;
+//     }
+//     if (firstName) {
+//       update.firstname = firstName;
+//     }
+//     if (lastName) {
+//       update.lastname = lastName;
+//     }
+//
+//     // Perform the update in one database call
+//     await User.updateOne({ _id: userId }, update);
+//
+//     // Fetch the updated user information
+//     const updatedUser = await User.findById(userId);
+//     res.json({ message: "Profile updated successfully", user: updatedUser });
+//   } catch (error) {
+//     res.status(500).json({ message: "An error occurred", error: error.message });
+//   }
+// }
 
 async function changePassword(req, res) {
   const {email, currentPassword, newPassword } = req.body;
@@ -110,6 +181,39 @@ async function changePassword(req, res) {
   }
 }
 
+// async function changePassword(req, res) {
+//   const { email, currentPassword, newPassword } = req.body;
+//
+//   try {
+//     const user = await User.findOne({ email: email });
+//     if (!user) {
+//       return res.status(404).json({ message: 'User not found' });
+//     }
+//
+//     const isPasswordCorrect = bcrypt.compareSync(currentPassword, user.password);
+//     if (!isPasswordCorrect) {
+//       return res.status(401).json({ message: 'Authentication failed' });
+//     }
+//
+//     const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%]).{8,15}$/;
+//     if (!passwordPattern.test(newPassword)) {
+//       return res.status(400).json({
+//         message: 'Password must be 8-15 characters long, with at least one number, one uppercase letter, one lowercase letter, and one special character (!@#$%).'
+//       });
+//     }
+//
+//     const hashedPassword = bcrypt.hashSync(newPassword, salt);
+//     user.password = hashedPassword;
+//     await user.save();
+//
+//     await sendEmail(email, 'Your password has been changed', 'Your password has been changed successfully.');
+//
+//     return res.json({ message: 'Password changed successfully' });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ message: 'Internal server error' });
+//   }
+// }
 
 async function addNewPhoneListing(req, res) {
   try {
@@ -147,6 +251,59 @@ async function addNewPhoneListing(req, res) {
   }
 }
 
+// async function addNewPhoneListing(req, res) {
+//   try {
+//     const { title, brand, price, stock, currentUserId } = req.body;
+//
+//     // Validate input
+//     const validationResult = validatePhoneListingInput(req.body);
+//     if (!validationResult.isValid) {
+//       return res.status(400).json({ errors: validationResult.errors });
+//     }
+//
+//     // Create new phone listing
+//     const sellerId = mongoose.Types.ObjectId.isValid(currentUserId) ?
+//         new mongoose.Types.ObjectId(currentUserId) :
+//         null;
+//     if (!sellerId) {
+//       return res.status(400).json({ error: "Invalid seller ID" });
+//     }
+//
+//     const newPhoneListing = await PhoneListing.create({
+//       title,
+//       brand,
+//       image: `./imgs/${brand}.jpeg`, // Consider handling image uploads separately
+//       price,
+//       stock,
+//       seller: sellerId,
+//     });
+//
+//     // Consider filtering the response if necessary
+//     res.status(201).json(newPhoneListing);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// }
+//
+// function validatePhoneListingInput(data) {
+//   let errors = {};
+//   const requiredFields = ["title", "brand", "price", "stock"];
+//   let isValid = true;
+//
+//   requiredFields.forEach((field) => {
+//     if (!data[field]) {
+//       errors[field] = `${field.charAt(0).toUpperCase() + field.slice(1)} is required.`;
+//       isValid = false;
+//     }
+//   });
+//
+//   // Add additional validations as needed (e.g., check if price is a number)
+//
+//   return {
+//     isValid,
+//     errors,
+//   };
+// }
 
 async function getPhoneListingByUser(req, res) {
   try {
